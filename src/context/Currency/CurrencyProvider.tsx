@@ -1,6 +1,6 @@
 import { useState, type ReactNode } from "react";
 
-import { currencyList } from "../utils/currencyList";
+import { currencyList } from "../../utils/currencyList";
 import { CurrencyContext } from "./CurrencyContext";
 
 export function CurrencyProvider({ children }: { children: ReactNode }) {
@@ -9,11 +9,6 @@ export function CurrencyProvider({ children }: { children: ReactNode }) {
   const [quoteCurrency, setQuoteCurrency] = useState(currencyList.popular[1]);
 
   const [amount, setAmount] = useState(0);
-
-  // function swapCurrencies() {
-  //   setBaseCurrency(quoteCurrency);
-  //   setQuoteCurrency(baseCurrency);
-  // }
 
   return (
     <CurrencyContext.Provider

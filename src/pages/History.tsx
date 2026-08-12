@@ -1,10 +1,11 @@
 import { useState } from "react";
 import ConversionStats from "../components/conversionStats";
-import ChartComponent from "../components/rateChart";
+import ChartComponent from "../components/chart/rateChart";
 import { useCurrencyHistory } from "../hooks/useCurrencyHistory";
-import { useCurrency } from "../context/useCurrency";
+import { useCurrency } from "../context/Currency/useCurrency";
 import { getDate } from "../utils/getDate";
 import { ChartSkeleton } from "../components/skeletons/ChartSkeleton";
+import ChartError from "../components/chart/ChartError";
 
 const ranges = [
   { label: "1W", value: 7 },
@@ -17,7 +18,7 @@ const ranges = [
 export default function History() {
   const [chartRange, setChartRange] = useState(ranges[0]);
   const { baseCurrency, quoteCurrency } = useCurrency();
-  const { data = [], isPending, isFetching } = useCurrencyHistory(
+  const { data = [], isPending, isFetching, error } = useCurrencyHistory(
     baseCurrency.code,
     quoteCurrency.code,
     chartRange,
@@ -27,6 +28,10 @@ export default function History() {
 
   if (isPending) {
     return <ChartSkeleton />;
+  }
+
+  if(error){
+    return <ChartError />
   }
 
   return (

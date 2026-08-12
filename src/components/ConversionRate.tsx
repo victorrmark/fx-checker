@@ -1,5 +1,5 @@
 import { Star } from "lucide-react";
-import { useCurrency } from "../context/useCurrency";
+import { useCurrency } from "../context/Currency/useCurrency";
 import { useGetCurrency } from "../hooks/useGetCurrency";
 
 export default function ConversionRate() {
@@ -10,14 +10,19 @@ export default function ConversionRate() {
     quoteCurrency.code,
   );
 
-  return (
-    <div className="w-full p-4 gap-4 flex flex-col items-center md:flex-row justify-between">
-      {isLoading && (
+  if (isLoading) {
+    return (
+      <div className="w-full p-4 gap-4 flex flex-col items-center md:flex-row justify-between">
         <p className="text-6 text-neutral-50 md:text-5 md:px-5 md:py-4 ">
           Getting rate...
         </p>
-      )}
-      {error && (
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="w-full p-4 gap-4 flex flex-col items-center md:flex-row justify-between">
         <p className="text-6 text-neutral-50 md:text-5 md:px-5 md:py-4">
           Problem loading rate,{" "}
           <button
@@ -28,8 +33,12 @@ export default function ConversionRate() {
             try again
           </button>
         </p>
-      )}
+      </div>
+    );
+  }
 
+  return (
+    <div className="w-full p-4 gap-4 flex flex-col items-center md:flex-row justify-between">
       <p className="text-6 text-neutral-50 uppercase md:text-5 md:px-5 md:py-4 justify-between">
         1 {data?.base} = {data?.rate} {data?.quote}
       </p>

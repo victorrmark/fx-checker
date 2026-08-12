@@ -1,5 +1,5 @@
 import { createContext } from "react";
-import {currencyList} from "../utils/currencyList";
+import {currencyList} from "../../utils/currencyList";
 
 type Currency = (typeof currencyList.popular)[number];
 
