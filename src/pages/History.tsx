@@ -5,7 +5,7 @@ import { useCurrencyHistory } from "../hooks/useCurrencyHistory";
 import { useCurrency } from "../context/Currency/useCurrency";
 import { getDate } from "../utils/getDate";
 import { ChartSkeleton } from "../components/skeletons/ChartSkeleton";
-import ChartError from "../components/chart/ChartError";
+import EmptyState from "../components/EmptyState";
 
 const ranges = [
   { label: "1W", value: 7 },
@@ -18,11 +18,12 @@ const ranges = [
 export default function History() {
   const [chartRange, setChartRange] = useState(ranges[0]);
   const { baseCurrency, quoteCurrency } = useCurrency();
-  const { data = [], isPending, isFetching, error } = useCurrencyHistory(
-    baseCurrency.code,
-    quoteCurrency.code,
-    chartRange,
-  );
+  const {
+    data = [],
+    isPending,
+    isFetching,
+    error,
+  } = useCurrencyHistory(baseCurrency.code, quoteCurrency.code, chartRange);
 
   const { month, day, time, timeZone } = getDate(new Date());
 
@@ -30,8 +31,13 @@ export default function History() {
     return <ChartSkeleton />;
   }
 
-  if(error){
-    return <ChartError />
+  if (error) {
+    return (
+      <EmptyState
+        title="No chart data available"
+        message={`We couldn't load rate history for ${baseCurrency.code}/${quoteCurrency.code} right now.\nThis usually clears up in a minute.`}
+      />
+    );
   }
 
   return (

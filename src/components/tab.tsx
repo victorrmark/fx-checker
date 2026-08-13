@@ -1,5 +1,6 @@
 import { ChevronDown } from "lucide-react";
 import { useState } from "react";
+import { useFavorites } from "../context/Favorites/useFavorites";
 
 type Tab = {
   id: string;
@@ -13,7 +14,9 @@ type TabsProps = {
 };
 
 function Tabs({ tabs, activeTab, onChange }: TabsProps) {
-    const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const { favorites } = useFavorites();
+
   return (
     <>
       <div className="hidden border-b border-neutral-500 sm:block">
@@ -26,9 +29,15 @@ function Tabs({ tabs, activeTab, onChange }: TabsProps) {
                 key={tab.id}
                 type="button"
                 onClick={() => onChange(tab.id)}
-                className="relative pb-3 text-3 font-medium px-4 uppercase text-neutral-50 cursor-pointer hover:text-neutral-100 focus:outline-none focus:text-neutral-100 "
+                className="relative flex items-center gap-2 pb-3 px-4 text-3 font-medium uppercase text-neutral-50 cursor-pointer hover:text-neutral-100 focus:outline-none focus:text-neutral-100"
               >
                 {tab.label}
+
+                {["favorites", "log"].includes(tab.id) && (
+                  <span className="flex h-5 min-w-5 items-center justify-center rounded-full bg-lime-800 px-1 text-xs text-lime-500">
+                    {tab.id === "favorites" ? favorites.length : 10}
+                  </span>
+                )}
 
                 {isActive && (
                   <span className="absolute inset-x-0 bottom-0 h-0.5 bg-lime-500" />
@@ -46,7 +55,10 @@ function Tabs({ tabs, activeTab, onChange }: TabsProps) {
           onClick={() => setIsOpen(!isOpen)}
         >
           {activeTab}
-          <ChevronDown size={16} className={`transition-transform duration-500 ${isOpen ? 'rotate-180' : 'rotate-0'}`} />
+          <ChevronDown
+            size={16}
+            className={`transition-transform duration-500 ${isOpen ? "rotate-180" : "rotate-0"}`}
+          />
         </button>
         {isOpen && (
           <div className="absolute top-full left-0 right-0 bg-neutral-700 border border-neutral-600 rounded-lg mt-1 z-10 p-2">
@@ -65,17 +77,6 @@ function Tabs({ tabs, activeTab, onChange }: TabsProps) {
             ))}
           </div>
         )}
-        {/* <select
-          value={activeTab}
-          onChange={(e) => onChange(e.target.value)}
-          className="w-full text-3 uppercase rounded-lg border border-gray-300 bg-white px-3 py-2"
-        >
-          {tabs.map((tab) => (
-            <option key={tab.id} value={tab.id}>
-              {tab.label}
-            </option>
-          ))}
-        </select> */}
       </div>
     </>
   );
