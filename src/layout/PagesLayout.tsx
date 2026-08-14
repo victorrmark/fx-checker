@@ -20,7 +20,7 @@ const tabComponents: { [key: string]: React.ComponentType } = {
 };
 
 export default function PagesLayout() {
-  const [activeTab, setActiveTab] = useState("history");
+  const [activeTab, setActiveTab] = useState("log");
 
   const ActiveTab = tabComponents[activeTab];
   return (
