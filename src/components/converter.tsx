@@ -19,6 +19,8 @@ export default function Converter() {
     quoteCurrency.code,
   );
 
+  console.log(data)
+
   return (
     <div className="w-full flex flex-col gap-4 p-4 md:flex-row md:gap-6 md:p-5 items-center">
       <div className="gap-4 p-4 rounded-2xl md:gap-5 md:p-5 flex flex-col w-full outline-1 outline-neutral-500 bg-neutral-600 min-w-0">
