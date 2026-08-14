@@ -1,6 +1,7 @@
 import { ChevronDown } from "lucide-react";
 import { useState } from "react";
 import { useFavorites } from "../context/Favorites/useFavorites";
+import { useLogs } from "../context/LogContext/useLogs";
 
 type Tab = {
   id: string;
@@ -16,6 +17,7 @@ type TabsProps = {
 function Tabs({ tabs, activeTab, onChange }: TabsProps) {
   const [isOpen, setIsOpen] = useState(false);
   const { favorites } = useFavorites();
+  const { logs } = useLogs();
 
   return (
     <>
@@ -35,7 +37,7 @@ function Tabs({ tabs, activeTab, onChange }: TabsProps) {
 
                 {["favorites", "log"].includes(tab.id) && (
                   <span className="flex h-5 min-w-5 items-center justify-center rounded-full bg-lime-800 px-1 text-xs text-lime-500">
-                    {tab.id === "favorites" ? favorites.length : 10}
+                    {tab.id === "favorites" ? favorites.length : logs.length}
                   </span>
                 )}
 
@@ -73,6 +75,11 @@ function Tabs({ tabs, activeTab, onChange }: TabsProps) {
                 className="w-full text-left px-2 py-2.5 text-neutral-50 hover:text-neutral-100 focus:outline-none focus:text-neutral-100 uppercase text-3 flex items-center justify-between gap-2 cursor-pointer"
               >
                 {tab.label}
+                {["favorites", "log"].includes(tab.id) && (
+                  <span className="flex h-5 min-w-5 items-center justify-center rounded-full bg-lime-800 px-1 text-xs text-lime-500">
+                    {tab.id === "favorites" ? favorites.length : logs.length}
+                  </span>
+                )}
               </button>
             ))}
           </div>

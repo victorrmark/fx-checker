@@ -19,7 +19,6 @@ export default function Converter() {
     quoteCurrency.code,
   );
 
-  console.log(data)
 
   return (
     <div className="w-full flex flex-col gap-4 p-4 md:flex-row md:gap-6 md:p-5 items-center">
@@ -33,7 +32,7 @@ export default function Converter() {
             className="bg-transparent min-w-0 text-neutral-50 text-tab lg:text-1  focus:outline-none no-spinner placeholder:text-tab lg:placeholder:text-1 placeholder:opacity-100 placeholder:text-neutral-200"
             placeholder="0"
           />
-          {/* <p className="text-neutral-50 text-tab lg:text-1 hover:cursor-text hover:border-b ">1,000</p> */}
+      
           <CurrencyButton
             currency={baseCurrency}
             setCurrency={setBaseCurrency}

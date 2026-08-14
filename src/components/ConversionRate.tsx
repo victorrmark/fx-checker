@@ -1,7 +1,7 @@
-import { Star } from "lucide-react";
 import { useCurrency } from "../context/Currency/useCurrency";
 import { useGetCurrency } from "../hooks/useGetCurrency";
 import AddFavorites from "./favoritesComponents/AddFavorites";
+import AddLog from "./logComponents/AddLog";
 
 export default function ConversionRate() {
   const { baseCurrency, quoteCurrency } = useCurrency();
@@ -46,10 +46,7 @@ export default function ConversionRate() {
 
       <div className="flex items-center gap-3">
         <AddFavorites />
-
-        <button className="px-3 py-2 rounded-lg outline-1 outline-lime-500 cursor-pointer text-neutral-50 gap-2 uppercase text-5 font-medium hover:bg-lime-800">
-          Log Conversion
-        </button>
+        <AddLog converted={data?.convert} />
       </div>
     </div>
   );
