@@ -39,7 +39,7 @@ export default function ConversionRate() {
   }
 
   return (
-    <div className="w-full p-4 gap-4 flex flex-col items-center md:flex-row justify-between">
+    <div className="relative w-full p-4 gap-4 flex flex-col items-center md:flex-row justify-between">
       <p className="text-6 text-neutral-50 uppercase md:text-5 md:px-5 md:py-4 justify-between">
         1 {data?.base} = {data?.rate} {data?.quote}
       </p>

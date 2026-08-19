@@ -1,11 +1,11 @@
 import { useState, useEffect, type ReactNode } from "react";
 import { LogsContext } from "./LogsContext";
-import type { logsType } from "./LogsContext";
+import type { LogsType } from "./LogsContext";
 
 const LOGS_KEY = "currency-logs";
 
 export function LogsProvider({ children }: { children: ReactNode }) {
-  const [logs, setLogs] = useState<logsType[]>(() => {
+  const [logs, setLogs] = useState<LogsType[]>(() => {
     if (typeof window === "undefined") return [];
 
     const stored = localStorage.getItem(LOGS_KEY);
@@ -17,7 +17,7 @@ export function LogsProvider({ children }: { children: ReactNode }) {
     localStorage.setItem(LOGS_KEY, JSON.stringify(logs));
   }, [logs]);
 
-  const addLog = (log: logsType) => {
+  const addLog = (log: LogsType) => {
     setLogs((current) => [...current, log]);
   };
 
@@ -25,15 +25,21 @@ export function LogsProvider({ children }: { children: ReactNode }) {
     setLogs((current) => current.filter((log) => log.id !== id));
   };
 
+  const eraseLogs = () => {
+    setLogs([]);
+  }
+
   return (
     <LogsContext.Provider
       value={{
         logs,
         addLog,
         deleteLog,
+        eraseLogs,
       }}
     >
       {children}
     </LogsContext.Provider>
   );
 }
+

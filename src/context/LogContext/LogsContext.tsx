@@ -14,6 +14,7 @@ type LogsContextType = {
     logs: LogsType[];
     addLog: (log: LogsType) => void;
     deleteLog: (id: string) => void;
+    eraseLogs: () => void;
 }
 
 export const LogsContext = createContext<LogsContextType | null>(null);

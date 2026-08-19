@@ -1,8 +1,12 @@
 import { Trash, ArrowRight } from "lucide-react";
 import { logTime } from "../../utils/displayTime";
 import type { LogsType } from "../../context/LogContext/LogsContext";
+import { formatNumber } from "../../utils/formatNumbers";
+import { useLogs } from "../../context/LogContext/useLogs";
 
-export default function Logs({ logs }: { logs: LogsType[] }) {
+export default function Logs() {
+  const { logs, deleteLog } = useLogs();
+
   return (
     <>
       {logs.map((log: LogsType) => (
@@ -20,10 +24,15 @@ export default function Logs({ logs }: { logs: LogsType[] }) {
           </div>
 
           <div className="flex flex-col sm:flex-row sm:items-center gap-0.5 sm:gap-5">
-            <p className="text-3 text-neutral-100">{log.amount}</p>
+            <p className="text-3 text-neutral-100">
+              {formatNumber(log.amount)}
+            </p>
             <p className="text-3 text-lime-500">{log.convertedAmount}</p>
           </div>
-          <button className="p-2 outline outline-neutral-500 rounded-lg cursor-pointer">
+          <button
+            className="p-2 outline outline-neutral-500 rounded-lg cursor-pointer"
+            onClick={() =>  deleteLog(log.id)}
+          >
             <Trash className="text-neutral-50 " size={15} />
           </button>
         </div>

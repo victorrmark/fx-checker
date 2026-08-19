@@ -1,5 +1,5 @@
 import { ArrowLeftRight } from "lucide-react";
-import { removeSign } from "../utils/removeSign";
+import { removeSign } from "../utils/formatNumbers";
 import CurrencyButton from "./currencyButton";
 import { useCurrency } from "../context/Currency/useCurrency";
 import { useGetCurrency } from "../hooks/useGetCurrency";
