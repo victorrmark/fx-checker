@@ -1,7 +1,7 @@
 
 import { createContext } from "react";
 
-export interface logsType {
+export interface LogsType {
     id: string;
     base: string;
     quote: string;
@@ -11,8 +11,8 @@ export interface logsType {
 }
 
 type LogsContextType = {
-    logs: logsType[];
-    addLog: (log: logsType) => void;
+    logs: LogsType[];
+    addLog: (log: LogsType) => void;
     deleteLog: (id: string) => void;
 }
 
