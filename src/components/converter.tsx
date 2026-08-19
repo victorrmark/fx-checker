@@ -7,7 +7,8 @@ import { useGetCurrency } from "../hooks/useGetCurrency";
 export default function Converter() {
   const {
     amount,
-    setAmount,
+    debounceAmount,
+    setDebounceAmount,
     baseCurrency,
     quoteCurrency,
     setBaseCurrency,
@@ -27,8 +28,8 @@ export default function Converter() {
         <div className="flex w-full items-center justify-between">
           <input
             type="number"
-            value={amount}
-            onChange={(e) => setAmount(e.target.value)}
+            value={debounceAmount}
+            onChange={(e) => setDebounceAmount(e.target.value)}
             className="bg-transparent min-w-0 text-neutral-50 text-tab lg:text-1  focus:outline-none no-spinner placeholder:text-tab lg:placeholder:text-1 placeholder:opacity-100 placeholder:text-neutral-200"
             placeholder="0"
           />
