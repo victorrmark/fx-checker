@@ -4,12 +4,13 @@ import AddFavorites from "./favoritesComponents/AddFavorites";
 import AddLog from "./logComponents/AddLog";
 
 export default function ConversionRate() {
-  const { baseCurrency, quoteCurrency } = useCurrency();
+  const { baseCurrency, quoteCurrency, amount } = useCurrency();
   const { data, isLoading, error } = useGetCurrency(
-    1,
+    amount,
     baseCurrency.code,
     quoteCurrency.code,
   );
+
 
   if (isLoading) {
     return (
