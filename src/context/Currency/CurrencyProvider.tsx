@@ -8,9 +8,9 @@ export function CurrencyProvider({ children }: { children: ReactNode }) {
 
   const [quoteCurrency, setQuoteCurrency] = useState(currencyList.popular[1]);
 
-  const [amount, setAmount] = useState(0);
+  const [amount, setAmount] = useState(100);
 
-  const [debounceAmount, setDebounceAmount] = useState(0)
+  const [debounceAmount, setDebounceAmount] = useState(100)
 
   useEffect(() => {
     const timer = setTimeout(() => {
