@@ -11,7 +11,7 @@ export type CurrenciesRate = {
 };
 
 export function useCompareCurrencies(base: string, amount: number) {
-  const results = useQueries<CurrenciesRate[]>({
+  const results = useQueries({
     queries: compareList.map((quote) => ({
       queryKey: ["compare", base, quote.code, amount],
       enabled: Boolean(amount),
@@ -30,7 +30,7 @@ export function useCompareCurrencies(base: string, amount: number) {
 
   const rates: CurrenciesRate[] = results
     .map((result) => result.data)
-    .filter(Boolean);
+    .filter((data): data is CurrenciesRate => data !== undefined);
 
   const isLoading = results.some((result) => result.isPending);
   const isError = results.some((result) => result.isError);

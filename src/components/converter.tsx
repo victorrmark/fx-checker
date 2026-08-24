@@ -14,12 +14,19 @@ export default function Converter() {
     setBaseCurrency,
     setQuoteCurrency,
   } = useCurrency();
+
   const { data } = useGetCurrency(
     Number(amount),
     baseCurrency.code,
     quoteCurrency.code,
   );
 
+  const handleSwitch =()=>{
+    const currentBaseCurrency = baseCurrency;
+    const currentQuoteCurrency = quoteCurrency;
+    setBaseCurrency(currentQuoteCurrency);
+    setQuoteCurrency(currentBaseCurrency);
+  }
 
   return (
     <div className="w-full flex flex-col gap-4 p-4 md:flex-row md:gap-6 md:p-5 items-center">
@@ -33,7 +40,7 @@ export default function Converter() {
             className="bg-transparent min-w-0 text-neutral-50 text-tab lg:text-1  focus:outline-none no-spinner placeholder:text-tab lg:placeholder:text-1 placeholder:opacity-100 placeholder:text-neutral-200"
             placeholder="0"
           />
-      
+
           <CurrencyButton
             currency={baseCurrency}
             setCurrency={setBaseCurrency}
@@ -41,9 +48,12 @@ export default function Converter() {
         </div>
       </div>
 
-      <div className="p-3 h-12 rounded-lg outline-1 outline-neutral-500 bg-neutral-600 hover:bg-neutral-400 cursor-pointer">
+      <button
+        className="p-3 h-12 rounded-lg outline-1 outline-neutral-500 bg-neutral-600 hover:bg-neutral-400 cursor-pointer"
+        onClick={handleSwitch}
+      >
         <ArrowLeftRight className="rotate-90 md:rotate-0 " color="white" />
-      </div>
+      </button>
 
       <div className="gap-4 p-4 rounded-2xl md:gap-5 md:p-5 flex flex-col w-full outline-1 outline-neutral-500 bg-neutral-600">
         <p className="uppercase text-4 text-neutral-100">Receive</p>

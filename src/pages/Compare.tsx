@@ -3,7 +3,7 @@ import EmptyState from "../components/EmptyState";
 import { formatNumber } from "../utils/formatNumbers";
 import ComparedCurrencies from "../components/comparedCurrencies";
 import { useCompareCurrencies } from "../hooks/useCompareRate";
-import CompareSkeletons from "../components/skeletons/CompareSkeletons";
+import CompareSkeleton from "../components/skeletons/CompareSkeletons";
 
 export default function Compare() {
   const { baseCurrency, amount } = useCurrency();
@@ -33,12 +33,15 @@ export default function Compare() {
         <p className="uppercase text-5 text-neutral-200">8 pairs</p>
       </div>
 
-      {isError && (
+      {isLoading ? (
+        <CompareSkeleton />
+      ) : isError ? (
         <div className="text-red-500">
           Error occurred while fetching currency rates.
         </div>
+      ) : (
+        <ComparedCurrencies data={rates} />
       )}
-      <ComparedCurrencies data={rates} />
     </div>
   );
 }
