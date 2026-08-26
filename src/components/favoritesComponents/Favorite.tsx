@@ -1,4 +1,4 @@
-import { Star, ArrowRight } from "lucide-react";
+import { Star, ArrowRight, Triangle } from "lucide-react";
 // import { formatNumber } from "../../utils/formatNumbers";
 import { useFavorites } from "../../context/Favorites/useFavorites";
 import { useCurrency } from "../../context/Currency/useCurrency";
@@ -6,8 +6,8 @@ import { currencyList } from "../../utils/currencyList";
 import { useGetFavorites } from "../../hooks/useGetFavorites";
 
 export default function Favorite() {
-  const { favorites, isFavorite, toggleFavorite } = useFavorites();
-  const {pairs} = useGetFavorites();
+  const { isFavorite, toggleFavorite } = useFavorites();
+  const { pairs } = useGetFavorites();
 
   const { setBaseCurrency, setQuoteCurrency } = useCurrency();
 
@@ -28,7 +28,7 @@ export default function Favorite() {
     }
   };
 
-  console.log(pairs)
+  console.log(pairs);
 
   return (
     <>
@@ -42,11 +42,36 @@ export default function Favorite() {
             <button
               type="button"
               onClick={() => handleClick(pair.base, pair.quote)}
-              className="flex flex-1 items-center gap-2 text-left"
+              className="flex flex-1 items-center justify-between gap-2"
             >
-              <p className="text-4 text-neutral-50">{pair.base}</p>
-              <ArrowRight className="text-neutral-200" size={15} />
-              <p className="text-4 text-neutral-50">{pair.quote}</p>
+              <div className="flex items-center gap-2">
+                <p className="text-4 text-neutral-50">{pair.base}</p>
+                <ArrowRight className="text-neutral-200" size={15} />
+                <p className="text-4 text-neutral-50">{pair.quote}</p>
+              </div>
+
+              <div className="flex flex-col text-right">
+                <p className="text-3 text-neutral-50">{pair.rate.toFixed(4)}</p>
+                <p
+                  className={`text-6 flex items-center gap-1 ${pair.isPositive ? "text-green-500" : "text-red-500"}`}
+                >
+                  {pair.isPositive ? (
+                    <Triangle
+                      className="fill-green-500"
+                      size={7}
+                      strokeWidth={0}
+                    />
+                  ) : (
+                    <Triangle
+                      className="fill-red-500 rotate-180"
+                      size={7}
+                      strokeWidth={0}
+                    />
+                  )}
+                  {pair.isPositive ? "+" : ""}
+                  {pair.change.toFixed(2)}%
+                </p>
+              </div>
             </button>
 
             <button

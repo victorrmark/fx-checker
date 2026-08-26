@@ -9,6 +9,7 @@ export type FavoriteRate = {
   quote: string;
   rate: number;
   change: number;
+  isPositive: boolean;
 };
 
 export function useGetFavorites() {
@@ -45,6 +46,7 @@ export function useGetFavorites() {
           return {
             ...data[data.length - 1],
             change,
+            isPositive: change >= 0
           };
         },
       };
