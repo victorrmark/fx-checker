@@ -1,7 +1,7 @@
 import { useState } from "react";
 import History from "../pages/History";
 import Compare from "../pages/Compare";
-import Favorites from "../pages/Favorites";
+import FavoritesPage from "../pages/FavoritesPage";
 import Log from "../pages/Log";
 import Tabs from "../components/tab";
 
@@ -15,7 +15,7 @@ const tabs: { id: string; label: string }[] = [
 const tabComponents: { [key: string]: React.ComponentType } = {
   history: History,
   compare: Compare,
-  favorites: Favorites,
+  favorites: FavoritesPage,
   log: Log,
 };
 

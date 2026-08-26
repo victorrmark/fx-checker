@@ -24,6 +24,7 @@ export default function History() {
     isFetching,
     error,
   } = useCurrencyHistory(baseCurrency.code, quoteCurrency.code, chartRange);
+  console.log(data)
 
   const { month, day, time, timeZone } = getDate(new Date());
 

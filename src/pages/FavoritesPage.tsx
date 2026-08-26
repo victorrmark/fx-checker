@@ -2,7 +2,7 @@ import { useFavorites } from "../context/Favorites/useFavorites";
 import EmptyState from "../components/EmptyState";
 import Favorite from "../components/favoritesComponents/Favorite";
 
-export default function Favorites() {
+export default function FavoritesPage() {
   const { favorites } = useFavorites();
 
   if (favorites.length === 0) {
