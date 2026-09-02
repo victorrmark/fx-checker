@@ -3,8 +3,11 @@ import Nav from "./components/nav";
 import MarketTicker from "./components/carousel/MarketTicker";
 import CurrencyCard from "./components/CurrencyCard";
 import PagesLayout from "./layout/PagesLayout";
+import { useMarketTicker } from "./hooks/useMarketTicker";
 
 function App() {
+  const {pairs} = useMarketTicker()
+  console.log(pairs)
 
   return (
     <div className="flex flex-col w-full h-dvh overflow-hidden gap-8 md:gap-12">

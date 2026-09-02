@@ -1,9 +1,13 @@
 import { useFavorites } from "../context/Favorites/useFavorites";
 import EmptyState from "../components/EmptyState";
 import Favorite from "../components/favoritesComponents/Favorite";
+import { useGetFavorites } from "../hooks/useGetFavorites";
+import CompareSkeleton from "../components/skeletons/CompareSkeletons";
 
 export default function FavoritesPage() {
   const { favorites } = useFavorites();
+    const { isLoading, isError } = useGetFavorites();
+  
 
   if (favorites.length === 0) {
     return (
@@ -25,15 +29,15 @@ export default function FavoritesPage() {
         <p className="uppercase text-5 text-neutral-200">{favorites.length} pairs</p>
       </div>
 
-      {/* {isLoading ? (
+      {isLoading ? (
         <CompareSkeleton />
       ) : isError ? (
         <div className="text-red-500">
           Error occurred while fetching currency rates.
         </div>
-      ) : ( */}
+      ) : (
         <Favorite />
-      {/* )} */}
+      )} 
     </div>
   );
 }

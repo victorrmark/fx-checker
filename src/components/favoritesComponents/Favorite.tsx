@@ -1,5 +1,4 @@
 import { Star, ArrowRight, Triangle } from "lucide-react";
-// import { formatNumber } from "../../utils/formatNumbers";
 import { useFavorites } from "../../context/Favorites/useFavorites";
 import { useCurrency } from "../../context/Currency/useCurrency";
 import { currencyList } from "../../utils/currencyList";
@@ -28,7 +27,6 @@ export default function Favorite() {
     }
   };
 
-  console.log(pairs);
 
   return (
     <>
@@ -42,7 +40,7 @@ export default function Favorite() {
             <button
               type="button"
               onClick={() => handleClick(pair.base, pair.quote)}
-              className="flex flex-1 items-center justify-between gap-2"
+              className="flex flex-1 items-center justify-between gap-2 cursor-pointer"
             >
               <div className="flex items-center gap-2">
                 <p className="text-4 text-neutral-50">{pair.base}</p>
