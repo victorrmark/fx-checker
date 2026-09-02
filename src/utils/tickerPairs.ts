@@ -1,15 +1,8 @@
-type MarketPair = {
+export type MarketPair = {
   base: string;
   quote: string;
 };
 
-type MarketRate = {
-  base: string;
-  quote: string;
-  rate: number;
-  change: number;
-  date: string;
-};
 
 export const marketPairs: MarketPair[] = [
   { base: "USD", quote: "EUR" },
@@ -36,4 +29,19 @@ export function getDateDaysAgo(days: number) {
   date.setDate(date.getDate() - days);
 
   return date.toISOString().split("T")[0];
+}
+
+export function groupPairsByBase(pairs: MarketPair[]) {
+  return pairs.reduce<Record<string, string[]>>(
+    (groups, pair) => {
+      if (!groups[pair.base]) {
+        groups[pair.base] = [];
+      }
+
+      groups[pair.base].push(pair.quote);
+
+      return groups;
+    },
+    {}
+  );
 }
