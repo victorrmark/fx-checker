@@ -2,7 +2,7 @@ export const logTime = (date: string) => {
   const now = new Date();
   const targetDate = new Date(date);
 
-  const diffInSeconds = Math.floor((now - targetDate) / 1000);
+  const diffInSeconds = Math.floor((now.getTime() - targetDate.getTime()) / 1000);
 
   if (diffInSeconds < 60) {
     return `${diffInSeconds}S`;

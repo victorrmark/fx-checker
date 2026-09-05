@@ -13,8 +13,8 @@ type CurrencyContextType = {
   amount: number;
   setAmount: React.Dispatch<React.SetStateAction<number>>;
 
-  debounceAmount: number;
-  setDebounceAmount: React.Dispatch<React.SetStateAction<number>>;
+  debounceAmount: string;
+  setDebounceAmount: React.Dispatch<React.SetStateAction<string>>;
 
   // swapCurrencies: () => void;
 };

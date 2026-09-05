@@ -10,12 +10,12 @@ export function CurrencyProvider({ children }: { children: ReactNode }) {
 
   const [amount, setAmount] = useState(0);
 
-  const [debounceAmount, setDebounceAmount] = useState(0)
+  const [debounceAmount, setDebounceAmount] = useState("")
 
   useEffect(() => {
     const timer = setTimeout(() => {
       //using amount as the debounce instead of debounceAmount to avoid renaming in other components cos i initially just used amount as the state name for the input value, but now i have to use debounceAmount as the state name for the input value to avoid renaming in other components which would take me time to start renaming the state name for the input value in other components.
-      setAmount(debounceAmount);
+      setAmount(Number(debounceAmount));
     }, 500);
 
     return () => clearTimeout(timer);
