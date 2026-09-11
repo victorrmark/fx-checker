@@ -1,7 +1,7 @@
 import { useCurrency } from "../context/Currency/useCurrency";
 import EmptyState from "../components/EmptyState";
 import { formatNumber } from "../utils/formatNumbers";
-import ComparedCurrencies from "../components/comparedCurrencies";
+import ComparedCurrencies from "../components/ComparedCurrencies";
 import { useCompareCurrencies } from "../hooks/useCompareRate";
 import CompareSkeleton from "../components/skeletons/CompareSkeletons";
 

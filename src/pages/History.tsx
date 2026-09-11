@@ -1,6 +1,6 @@
 import { useState } from "react";
-import ConversionStats from "../components/conversionStats";
-import ChartComponent from "../components/chart/rateChart";
+import ConversionStats from "../components/ConversionStats";
+import ChartComponent from "../components/chart/RateChart";
 import { useCurrencyHistory } from "../hooks/useCurrencyHistory";
 import { useCurrency } from "../context/Currency/useCurrency";
 import { getDate } from "../utils/getDate";

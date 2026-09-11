@@ -1,5 +1,5 @@
 import { useLogs } from "../context/LogContext/useLogs";
-import Logs from "../components/logComponents/logs";
+import Logs from "../components/log/Logs";
 import { useState } from "react";
 import EmptyState from "../components/EmptyState";
 
