@@ -1,5 +1,5 @@
 import "./App.css";
-import Nav from "./components/nav";
+import Nav from "./components/Nav";
 import MarketTicker from "./components/carousel/MarketTicker";
 import CurrencyCard from "./components/CurrencyCard";
 import PagesLayout from "./layout/PagesLayout";

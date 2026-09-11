@@ -3,7 +3,7 @@ import History from "../pages/History";
 import Compare from "../pages/Compare";
 import FavoritesPage from "../pages/FavoritesPage";
 import Log from "../pages/Log";
-import Tabs from "../components/tab";
+import Tabs from "../components/Tab";
 
 const tabs: { id: string; label: string }[] = [
   { id: "history", label: "History" },

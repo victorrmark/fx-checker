@@ -1,6 +1,6 @@
 import { useFavorites } from "../context/Favorites/useFavorites";
 import EmptyState from "../components/EmptyState";
-import Favorite from "../components/favoritesComponents/Favorite";
+import Favorite from "../components/favorites/Favorite";
 import { useGetFavorites } from "../hooks/useGetFavorites";
 import CompareSkeleton from "../components/skeletons/CompareSkeletons";
 

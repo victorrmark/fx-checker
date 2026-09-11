@@ -1,6 +1,6 @@
 import { type MarketPair } from "../../utils/tickerPairs";
 
-const MarktetSkeleton = ({
+const MarketSkeleton = ({
   market,
   index,
   error,
@@ -32,4 +32,4 @@ const MarktetSkeleton = ({
   );
 };
 
-export default MarktetSkeleton;
+export default MarketSkeleton;

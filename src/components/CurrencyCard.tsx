@@ -1,4 +1,4 @@
-import Converter from "./converter";
+import Converter from "./Converter";
 import ConversionRate from "./ConversionRate";
 
 export default function CurrencyCard() {

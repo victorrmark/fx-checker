@@ -1,7 +1,7 @@
 import { useCurrency } from "../context/Currency/useCurrency";
 import { useGetCurrency } from "../hooks/useGetCurrency";
-import AddFavorites from "./favoritesComponents/AddFavorites";
-import AddLog from "./logComponents/AddLog";
+import AddFavorites from "./favorites/AddFavorites";
+import AddLog from "./logs/AddLog";
 
 export default function ConversionRate() {
   const { baseCurrency, quoteCurrency, amount } = useCurrency();

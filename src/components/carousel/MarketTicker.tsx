@@ -1,6 +1,6 @@
 import MarketCard from "./MarketCard.tsx";
 import { useMarketRates } from "../../hooks/useMarketRates.ts";
-import MarktetSkeleton from "./MarktetSkeleton.tsx";
+import MarketSkeleton from "./MarketSkeleton.tsx";
 import { marketPairs } from "../../utils/tickerPairs.ts";
 
 function MarketTicker() {
@@ -16,7 +16,7 @@ function MarketTicker() {
         <div className="flex animate-marquee">
           {isLoading || isError
             ? [...marketPairs, ...marketPairs].map((market, index) => (
-                <MarktetSkeleton key={index} market={market} index={index} error={isError} />
+                <MarketSkeleton key={index} market={market} index={index} error={isError} />
               ))
             : [...data, ...data].map((market, index) => (
                 <MarketCard key={index} market={market} index={index} />
