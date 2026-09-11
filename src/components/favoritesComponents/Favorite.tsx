@@ -48,10 +48,10 @@ export default function Favorite() {
                 <p className="text-4 text-neutral-50">{pair.quote}</p>
               </div>
 
-              <div className="flex flex-col text-right">
+              <div className="flex flex-col items-end">
                 <p className="text-3 text-neutral-50">{pair.rate.toFixed(4)}</p>
                 <p
-                  className={`text-6 flex items-center gap-1 ${pair.isPositive ? "text-green-500" : "text-red-500"}`}
+                  className={`text-6 flex items-center gap-1 text-right ${pair.isPositive ? "text-green-500" : "text-red-500"}`}
                 >
                   {pair.isPositive ? (
                     <Triangle

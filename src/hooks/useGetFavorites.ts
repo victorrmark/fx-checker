@@ -1,75 +1,105 @@
 import axios from "axios";
 import { useQueries } from "@tanstack/react-query";
 import { useFavorites } from "../context/Favorites/useFavorites";
-import { compareRange } from "../utils/getDateRange";
+import {
+  groupPairsByBase,
+  parseFavoritePairs,
+  getDateDaysAgo,
+} from "../utils/tickerPairs";
 
-export type FavoriteRate = {
-  date: string;
+
+type Rate = {
   base: string;
   quote: string;
   rate: number;
+  date: string;
+};
+
+export type FavoriteRate = Rate & {
   change: number;
   isPositive: boolean;
 };
 
 export function useGetFavorites() {
   const { favorites } = useFavorites();
-  const results = useQueries({
-    queries: favorites.map((pair) => {
-      const [base, quote] = pair.split("_");
+  const favoritePairs = parseFavoritePairs(favorites);
 
-      return {
-        queryKey: ["favorite", base, quote],
-        enabled: favorites.length > 0,
-        queryFn: async () => {
-          const r = compareRange();
-          const path =
-            `/v2/rates?base=${base}` +
-            `&quotes=${quote}` +
-            `&from=${r.from}&to=${r.to}`;
+  const groupedPairs = groupPairsByBase(favoritePairs);
 
-          const { data } = await axios.get(
-            "https://api.frankfurter.dev" + path,
-          );
+  const queries = useQueries({
+    queries: Object.entries(groupedPairs).map(([base, quotes]) => ({
+      queryKey: ["favorite", base, quotes],
+      enabled: favorites.length > 0,
 
-          // if (!data.ok) {
-          //   throw new Error("Failed to fetch favorites rate");
-          // }
+      queryFn: async (): Promise<FavoriteRate[]> => {
+        const from = getDateDaysAgo(7);
+        const to = new Date().toISOString().split("T")[0];
 
-          const open = data[0].rate;
-          const last = data[data.length - 1].rate;
+        const { data } = await axios.get(
+          "https://api.frankfurter.dev/v2/rates",
+          {
+            params: {
+              base,
+              quotes: quotes.join(","),
+              from,
+              to,
+            },
+          },
+        );
 
-          const change = ((last - open) / open) * 100;
+        const ratesByQuote = data.reduce(
+          (groups: Record<string, Rate[]>, item: Rate) => {
+            if (!groups[item.quote]) {
+              groups[item.quote] = [];
+            }
 
-          // console.log(data);
+            groups[item.quote].push(item);
+
+            return groups;
+          },
+          {},
+        );
+        const entries = Object.entries(ratesByQuote) as [string, Rate[]][];
+
+        return entries.map(([quote, rates]) => {
+          rates.sort((a, b) => a.date.localeCompare(b.date));
+
+          const latest = rates[rates.length - 1];
+          const previous = rates[rates.length - 2];
+
+          if (!latest) {
+            throw new Error(`No rate found for ${base}/${quote}`);
+          }
+
+          const change = previous
+            ? ((latest.rate - previous.rate) / previous.rate) * 100
+            : 0;
 
           return {
-            ...data[data.length - 1],
+            base,
+            quote,
+            rate: latest.rate,
             change,
-            isPositive: change >= 0
+            date: latest.date,
+            isPositive: change >= 0,
           };
-        },
-      };
-    }),
+        });
+      },
+
+      staleTime: 60 * 60 * 1000,
+      refetchInterval: 60 * 60 * 1000,
+    })),
   });
 
-  const pairs: FavoriteRate[] = results
-    .map((result) => result.data)
-    .filter((data): data is FavoriteRate => data !== undefined);
+  const data = queries.flatMap((query) => query.data ?? []);
 
-  const isLoading = results.some((result) => result.isPending);
-  const isError = results.some((result) => result.isError);
+  const isLoading = queries.some((query) => query.isLoading);
+
+  const isError = queries.some((query) => query.isError);
 
   return {
-    pairs,
+    pairs: data,
     isLoading,
     isError,
   };
 }
-
-// const r = compareRange();
-// const path =
-//   `/v2/rates?base=${base}` +
-//   `&quotes=${quote.code}` +
-//   `&from=${r.from}&to=${r.to}`;
-// const { data } = await axios.get("https://api.frankfurter.dev" + path);

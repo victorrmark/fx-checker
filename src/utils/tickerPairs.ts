@@ -45,3 +45,16 @@ export function groupPairsByBase(pairs: MarketPair[]) {
     {}
   );
 }
+
+type CurrencyPair = {
+  base: string;
+  quote: string;
+};
+
+export function parseFavoritePairs(pairs: string[]): CurrencyPair[] {
+  return pairs.map((pair) => {
+    const [base, quote] = pair.split("_");
+
+    return { base, quote };
+  });
+}

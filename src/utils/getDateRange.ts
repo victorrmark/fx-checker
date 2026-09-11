@@ -10,10 +10,10 @@ export function getRange(range: {label: string; value:number}) {
   return { from: isoDate(from), to: isoDate(to) };
 }
 
-export function compareRange() {
-  const to = new Date();
+// export function compareRange() {
+//   const to = new Date();
 
-  const from = new Date(to);
-  from.setDate(from.getDate() - Number(1));
-  return { from: isoDate(from), to: isoDate(to) };
-}
+//   const from = new Date(to);
+//   from.setDate(from.getDate() - Number(1));
+//   return { from: isoDate(from), to: isoDate(to) };
+// }
