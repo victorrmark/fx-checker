@@ -9,7 +9,7 @@ export default function ComparedCurrencies({
 }: {
   data: CurrenciesRate[];
 }) {
-  const { isFavorite } = useFavorites();
+  const { isFavorite, toggleFavorite } = useFavorites();
 
   return (
     <>
@@ -49,7 +49,7 @@ export default function ComparedCurrencies({
 
             <button
               className={`p-2 outline rounded-lg cursor-pointer ${favorite ? "outline-lime-500" : "outline-neutral-500"}`}
-              // onClick={() =>  deleteLog(log.id)}
+              onClick={() =>  toggleFavorite(data.base, data.quote)}
             >
               <Star className={favorite ? "fill-lime-500 text-lime-500" : "text-neutral-50"} size={15} />
             </button>

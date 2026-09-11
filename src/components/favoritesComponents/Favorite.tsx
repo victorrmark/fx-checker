@@ -10,15 +10,16 @@ export default function Favorite() {
 
   const { setBaseCurrency, setQuoteCurrency } = useCurrency();
 
+  const currencyMap = new Map(
+    [...currencyList.popular, ...currencyList.other].map((currency) => [
+      currency.code,
+      currency,
+    ]),
+  );
+
   const handleClick = (base: string, quote: string) => {
-    const newBaseCurrency = [
-      ...currencyList.popular,
-      ...currencyList.other,
-    ].find((currency) => currency.code === base);
-    const newQuoteCurrency = [
-      ...currencyList.popular,
-      ...currencyList.other,
-    ].find((currency) => currency.code === quote);
+    const newBaseCurrency = currencyMap.get(base);
+    const newQuoteCurrency = currencyMap.get(quote);
     if (newBaseCurrency) {
       setBaseCurrency(newBaseCurrency);
     }
@@ -26,7 +27,6 @@ export default function Favorite() {
       setQuoteCurrency(newQuoteCurrency);
     }
   };
-
 
   return (
     <>

@@ -21,17 +21,17 @@ export default function Converter() {
     quoteCurrency.code,
   );
 
-  const handleSwitch =()=>{
+  const handleSwitch = () => {
     const currentBaseCurrency = baseCurrency;
     const currentQuoteCurrency = quoteCurrency;
     setBaseCurrency(currentQuoteCurrency);
     setQuoteCurrency(currentBaseCurrency);
-  }
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const rawValue = e.target.value;
-    
-    if (rawValue === '' || /^\d+$/.test(rawValue)) {
+
+    if (rawValue === "" || /^\d*\.?\d*$/.test(rawValue)) {
       setDebounceAmount(rawValue);
     }
   };

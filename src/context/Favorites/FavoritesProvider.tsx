@@ -8,10 +8,23 @@ export function FavoritesProvider({ children }: { children: ReactNode }) {
     if (typeof window === "undefined") return [];
 
     const stored = localStorage.getItem(FAVORITES_KEY);
+    if (!stored) return [];
 
-    return stored ? JSON.parse(stored) : [];
+    try {
+      const parsed: unknown = JSON.parse(stored);
+      
+      if (
+        Array.isArray(parsed) &&
+        parsed.every((item) => typeof item === "string")
+      ) {
+        return parsed;
+      }
+
+      return [];
+    } catch {
+      return [];
+    }
   });
-
 
   useEffect(() => {
     localStorage.setItem(FAVORITES_KEY, JSON.stringify(favorites));

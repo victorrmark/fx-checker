@@ -10,7 +10,29 @@ export function LogsProvider({ children }: { children: ReactNode }) {
 
     const stored = localStorage.getItem(LOGS_KEY);
 
-    return stored ? JSON.parse(stored) : [];
+    if (!stored) return [];
+
+    try {
+      const parsed: unknown = JSON.parse(stored);
+
+      if (!Array.isArray(parsed)) return [];
+
+      const isValidLogs = parsed.every(
+        (log): log is LogsType =>
+          typeof log === "object" &&
+          log !== null &&
+          typeof log.id === "string" &&
+          typeof log.base === "string" &&
+          typeof log.quote === "string" &&
+          typeof log.amount === "number" &&
+          typeof log.convertedAmount === "number" &&
+          typeof log.createdAt === "string",
+      );
+
+      return isValidLogs ? parsed : [];
+    } catch {
+      return [];
+    }
   });
 
   useEffect(() => {
@@ -27,7 +49,7 @@ export function LogsProvider({ children }: { children: ReactNode }) {
 
   const eraseLogs = () => {
     setLogs([]);
-  }
+  };
 
   return (
     <LogsContext.Provider
@@ -42,4 +64,3 @@ export function LogsProvider({ children }: { children: ReactNode }) {
     </LogsContext.Provider>
   );
 }
-

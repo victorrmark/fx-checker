@@ -8,7 +8,6 @@ export default function AddLog({converted}: {converted: string | undefined}) {
   const { addLog } = useLogs();
   const {baseCurrency, quoteCurrency, amount} = useCurrency();
   const [toast, setToast] = useState("");
-  console.log(converted)
 
   const showToast = () => {
     setToast("Conversation logged!");

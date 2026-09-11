@@ -14,7 +14,7 @@ function App() {
         <MarketTicker />
       </div>
 
-      <main className="w-full lg:w-275 lg:m-auto px-4 pb-8 md:px-6 md:pb-12 lg:px-8 flex-1 flex flex-col gap-8 overflow-scroll scrollbar-none">
+      <main className="w-full lg:max-w-275 lg:m-auto px-4 pb-8 md:px-6 md:pb-12 lg:px-8 flex-1 flex flex-col gap-8 overflow-scroll scrollbar-none">
         <CurrencyCard />
         <PagesLayout />
       </main>
