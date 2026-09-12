@@ -1,4 +1,3 @@
-import axios from "axios";
 import { useQueries } from "@tanstack/react-query";
 import { useFavorites } from "../context/Favorites/useFavorites";
 import {
@@ -6,6 +5,7 @@ import {
   parseFavoritePairs,
   getDateDaysAgo,
 } from "../utils/tickerPairs";
+import { getMultiRates } from "../api/frankfuter";
 
 
 type Rate = {
@@ -35,17 +35,7 @@ export function useGetFavorites() {
         const from = getDateDaysAgo(7);
         const to = new Date().toISOString().split("T")[0];
 
-        const { data } = await axios.get(
-          "https://api.frankfurter.dev/v2/rates",
-          {
-            params: {
-              base,
-              quotes: quotes.join(","),
-              from,
-              to,
-            },
-          },
-        );
+        const data = await getMultiRates(base, quotes.join(","), from, to);
 
         const ratesByQuote = data.reduce(
           (groups: Record<string, Rate[]>, item: Rate) => {

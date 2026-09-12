@@ -1,7 +1,7 @@
-import axios from "axios";
 import { useQuery, keepPreviousData } from "@tanstack/react-query";
 import type { HistoryData } from "../type/data";
 import { getRange } from "../utils/getDateRange";
+import { getMultiRates } from "../api/frankfuter";
 
 export function useCurrencyHistory(
   base: string,
@@ -12,11 +12,7 @@ export function useCurrencyHistory(
     queryKey: ["history", base, quote, range],
     queryFn: async () => {
       const r = getRange(range);
-      const path =
-        `/v2/rates?base=${base}` +
-        `&quotes=${quote}` +
-        `&from=${r.from}&to=${r.to}`;
-      const { data } = await axios.get("https://api.frankfurter.dev" + path);
+      const data = await getMultiRates(base, quote, r.from, r.to);
 
       return data.map(({ date, rate }: { date: string; rate: number }) => ({
         date,

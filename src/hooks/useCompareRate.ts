@@ -1,6 +1,6 @@
-import axios from "axios";
 import { useQueries } from "@tanstack/react-query";
 import { compareList } from "../utils/compareCurrencies";
+import { getRates } from "../api/frankfuter";
 
 export type CurrenciesRate = {
   date: string;
@@ -16,9 +16,7 @@ export function useCompareCurrencies(base: string, amount: number) {
       queryKey: ["compare", base, quote.code, amount],
       enabled: Boolean(amount),
       queryFn: async (): Promise<CurrenciesRate> => {
-        const { data } = await axios.get(
-          `https://api.frankfurter.dev/v2/rate/${base}/${quote.code}`
-        );
+        const data = await getRates(base, quote.code);
 
         return {
           ...data,
@@ -42,9 +40,3 @@ export function useCompareCurrencies(base: string, amount: number) {
   };
 }
 
-// const r = compareRange();
-        // const path =
-        //   `/v2/rates?base=${base}` +
-        //   `&quotes=${quote.code}` +
-        //   `&from=${r.from}&to=${r.to}`;
-        // const { data } = await axios.get("https://api.frankfurter.dev" + path);

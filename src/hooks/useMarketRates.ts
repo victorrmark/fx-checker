@@ -1,6 +1,10 @@
 import { useQueries } from "@tanstack/react-query";
-import axios from "axios";
-import { groupPairsByBase, marketPairs, getDateDaysAgo } from "../utils/tickerPairs";
+import { getMultiRates } from "../api/frankfuter";
+import {
+  groupPairsByBase,
+  marketPairs,
+  getDateDaysAgo,
+} from "../utils/tickerPairs";
 
 type Rate = {
   base: string;
@@ -17,94 +21,63 @@ export function useMarketRates() {
   const groupedPairs = groupPairsByBase(marketPairs);
 
   const queries = useQueries({
-    queries: Object.entries(groupedPairs).map(
-      ([base, quotes]) => ({
-        queryKey: ["market-rates", base, quotes],
+    queries: Object.entries(groupedPairs).map(([base, quotes]) => ({
+      queryKey: ["market-rates", base, quotes],
 
-        queryFn: async (): Promise<MarketRate[]> => {
-          const from = getDateDaysAgo(7);
-          const to = new Date()
-            .toISOString()
-            .split("T")[0];
+      queryFn: async (): Promise<MarketRate[]> => {
+        const from = getDateDaysAgo(7);
+        const to = new Date().toISOString().split("T")[0];
 
-          const { data } = await axios.get(
-            "https://api.frankfurter.dev/v2/rates",
-            {
-              params: {
-                base,
-                quotes: quotes.join(","),
-                from,
-                to,
-              },
+        const data = await getMultiRates(base, quotes.join(","), from, to);
+
+        const ratesByQuote = data.reduce(
+          (groups: Record<string, Rate[]>, item: Rate) => {
+            if (!groups[item.quote]) {
+              groups[item.quote] = [];
             }
-          );
 
-          const ratesByQuote = data.reduce(
-            (
-              groups: Record<string, Rate[]>,
-              item: Rate
-            ) => {
-              if (!groups[item.quote]) {
-                groups[item.quote] = [];
-              }
+            groups[item.quote].push(item);
 
-              groups[item.quote].push(item);
+            return groups;
+          },
+          {},
+        );
+        const entries = Object.entries(ratesByQuote) as [string, Rate[]][];
 
-              return groups;
-            },
-            {}
-          );
-          const entries = Object.entries(ratesByQuote) as [string, Rate[]][];
+        return entries.map(([quote, rates]) => {
+          rates.sort((a, b) => a.date.localeCompare(b.date));
 
-          return entries.map(
-            ([quote, rates]) => {
-              rates.sort((a, b) =>
-                a.date.localeCompare(b.date)
-              );
+          const latest = rates[rates.length - 1];
+          const previous = rates[rates.length - 2];
 
-              const latest = rates[rates.length - 1];
-              const previous = rates[rates.length - 2];
+          if (!latest) {
+            throw new Error(`No rate found for ${base}/${quote}`);
+          }
 
-              if (!latest) {
-                throw new Error(
-                  `No rate found for ${base}/${quote}`
-                );
-              }
+          const change = previous
+            ? ((latest.rate - previous.rate) / previous.rate) * 100
+            : 0;
 
-              const change = previous
-                ? ((latest.rate - previous.rate) /
-                    previous.rate) *
-                  100
-                : 0;
+          return {
+            base,
+            quote,
+            rate: latest.rate,
+            change,
+            date: latest.date,
+          };
+        });
+      },
 
-              return {
-                base,
-                quote,
-                rate: latest.rate,
-                change,
-                date: latest.date,
-              };
-            }
-          );
-        },
-
-        staleTime: 60 * 60 * 1000,
-        refetchInterval: 60 * 60 * 1000,
-      })
-    ),
+      staleTime: 60 * 60 * 1000,
+      refetchInterval: 60 * 60 * 1000,
+    })),
   });
 
-  const data = queries.flatMap(
-    (query) => query.data ?? []
-  );
+  const data = queries.flatMap((query) => query.data ?? []);
 
-  const isLoading = queries.some(
-    (query) => query.isLoading
-  );
+  const isLoading = queries.some((query) => query.isLoading);
 
-  const isError = queries.some(
-    (query) => query.isError
-  );
+  const isError = queries.some((query) => query.isError);
 
   return {
     data,
@@ -112,4 +85,3 @@ export function useMarketRates() {
     isError,
   };
 }
-
