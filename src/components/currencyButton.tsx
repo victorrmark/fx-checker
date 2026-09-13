@@ -51,7 +51,7 @@ function CurrencyButton({ currency, setCurrency }: CurrencyButtonProps) {
     <div className="relative shrink-0">
       <button
         type="button"
-        className=" shrink-0 flex items-center justify-between gap-2 rounded-lg bg-neutral-500 p-2.5 outline outline-neutral-400 hover:bg-neutral-400 cursor-pointer"
+        className=" shrink-0 flex items-center justify-between gap-2 rounded-lg bg-neutral-500 p-2.5 outline border-neutral-400 hover:bg-neutral-400 cursor-pointer"
         onClick={toggleDropdown}
       >
         <img
@@ -71,13 +71,19 @@ function CurrencyButton({ currency, setCurrency }: CurrencyButtonProps) {
 
       {isOpen && (
         <div className="absolute right-0 top-full z-20 mt-2 w-94 rounded-lg outline outline-neutral-400 bg-neutral-600 p-2">
-          {/* Search */}
-
           <div className="sticky top-0 mb-2.5 ">
             <div className="flex items-center gap-2 rounded-md bg-neutral-600 px-3 outline outline-neutral-200">
-              <Search size={16} className="text-neutral-50 " />
+              <Search
+                size={16}
+                className="text-neutral-50 "
+                aria-hidden="true"
+              />
+              <label htmlFor="currency-search" className="sr-only">
+                Search currencies
+              </label>
 
               <input
+                id="currency-search"
                 ref={searchRef}
                 type="text"
                 placeholder="Search currencies..."

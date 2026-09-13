@@ -40,11 +40,16 @@ export default function Favorite() {
             <button
               type="button"
               onClick={() => handleClick(pair.base, pair.quote)}
+              aria-label={`View ${pair.base} to ${pair.quote} exchange rate`}
               className="flex flex-1 items-center justify-between gap-2 cursor-pointer"
             >
               <div className="flex items-center gap-2">
                 <p className="text-4 text-neutral-50">{pair.base}</p>
-                <ArrowRight className="text-neutral-200" size={15} />
+                <ArrowRight
+                  className="text-neutral-200"
+                  size={15}
+                  aria-hidden="true"
+                />
                 <p className="text-4 text-neutral-50">{pair.quote}</p>
               </div>
 
@@ -58,12 +63,14 @@ export default function Favorite() {
                       className="fill-green-500"
                       size={7}
                       strokeWidth={0}
+                      aria-hidden="true"
                     />
                   ) : (
                     <Triangle
                       className="fill-red-500 rotate-180"
                       size={7}
                       strokeWidth={0}
+                      aria-hidden="true"
                     />
                   )}
                   {pair.isPositive ? "+" : ""}
@@ -78,12 +85,19 @@ export default function Favorite() {
                 favorite ? "outline-lime-500" : "outline-neutral-500"
               }`}
               onClick={() => toggleFavorite(pair.base, pair.quote)}
+              aria-label={
+                favorite
+                  ? `Remove ${pair.base} to ${pair.quote} from favorites`
+                  : `Add ${pair.base} to ${pair.quote} to favorites`
+              }
+              aria-pressed={favorite}
             >
               <Star
                 className={
                   favorite ? "fill-lime-500 text-lime-500" : "text-neutral-50"
                 }
                 size={12}
+                aria-hidden="true"
               />
             </button>
           </div>

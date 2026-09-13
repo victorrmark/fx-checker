@@ -31,7 +31,7 @@ function Tabs({ tabs, activeTab, onChange }: TabsProps) {
                 key={tab.id}
                 type="button"
                 onClick={() => onChange(tab.id)}
-                className="relative flex items-center gap-2 pb-3 px-4 text-3 font-medium uppercase text-neutral-50 cursor-pointer hover:text-neutral-100 focus:outline-none focus:text-neutral-100"
+                className="relative flex items-center gap-2 py-4 px-4 text-3 font-medium uppercase text-neutral-50 cursor-pointer hover:text-neutral-100 focus:outline-lime-500 focus:outline-2  focus:text-neutral-100 rounded-lg"
               >
                 {tab.label}
 
