@@ -44,13 +44,9 @@ export default function Favorite() {
               className="flex min-w-0 flex-1 items-center justify-between gap-2 cursor-pointer focus:outline-none"
             >
               <div className="flex items-center gap-2">
-                <span className="text-4 text-neutral-50">{pair.base}</span>
-                <ArrowRight
-                  className="text-neutral-200"
-                  size={15}
-                  aria-hidden="true"
-                />
-                <span className="text-4 text-neutral-50">{pair.quote}</span>
+                <p className="text-4 text-neutral-50">{pair.base}</p>
+                <ArrowRight className="text-neutral-200" size={15} />
+                <p className="text-4 text-neutral-50">{pair.quote}</p>
               </div>
 
               <div className="flex flex-col items-end">
