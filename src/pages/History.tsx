@@ -50,7 +50,8 @@ export default function History() {
               key={idx}
               type="button"
               onClick={() => setChartRange(range)}
-              className={`px-4 py-3  focus:outline-none  uppercase text-5 flex items-center cursor-pointer rounded-lg ${chartRange.label === range.label ? " text-neutral-50 bg-neutral-500" : "text-neutral-200 focus:text-neutral-100 hover:text-neutral-100 "}`}
+              className={`px-4 py-3 uppercase text-5 flex items-center cursor-pointer rounded-lg focus:outline-lime-500 focus:outline-2 focus:outline-offset-2 ${chartRange.label === range.label ? " text-neutral-50 bg-neutral-500" : "text-neutral-200 focus:text-neutral-100 hover:text-neutral-100 "}`}
+              aria-label={`view chart range for ${range.label}`}
             >
               {range.label}
             </button>

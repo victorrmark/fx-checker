@@ -30,27 +30,32 @@ export default function Favorite() {
 
   return (
     <>
-      {pairs.map((pair, idx) => {
+      {pairs.map((pair) => {
         const favorite = isFavorite(pair.base, pair.quote);
         return (
           <div
-            key={idx}
-            className="p-3 sm:p-4 rounded-[10px] bg-neutral-600 outline outline-neutral-500 gap-3.5 flex items-center"
+            key={`${pair.base}-${pair.quote}`}
+            className="p-3 sm:p-4 rounded-[10px] bg-neutral-600 outline outline-neutral-500 gap-3.5 flex items-center transition-colors focus-within:outline-2 focus-within:outline-lime-500"
           >
             <button
               type="button"
               onClick={() => handleClick(pair.base, pair.quote)}
-              className="flex flex-1 items-center justify-between gap-2 cursor-pointer"
+              aria-label={`View ${pair.base} to ${pair.quote} exchange rate`}
+              className="flex min-w-0 flex-1 items-center justify-between gap-2 cursor-pointer focus:outline-none"
             >
               <div className="flex items-center gap-2">
-                <p className="text-4 text-neutral-50">{pair.base}</p>
-                <ArrowRight className="text-neutral-200" size={15} />
-                <p className="text-4 text-neutral-50">{pair.quote}</p>
+                <span className="text-4 text-neutral-50">{pair.base}</span>
+                <ArrowRight
+                  className="text-neutral-200"
+                  size={15}
+                  aria-hidden="true"
+                />
+                <span className="text-4 text-neutral-50">{pair.quote}</span>
               </div>
 
               <div className="flex flex-col items-end">
-                <p className="text-3 text-neutral-50">{pair.rate.toFixed(4)}</p>
-                <p
+                <span className="text-3 text-neutral-50">{pair.rate.toFixed(4)}</span>
+                <span
                   className={`text-6 flex items-center gap-1 text-right ${pair.isPositive ? "text-green-500" : "text-red-500"}`}
                 >
                   {pair.isPositive ? (
@@ -58,32 +63,41 @@ export default function Favorite() {
                       className="fill-green-500"
                       size={7}
                       strokeWidth={0}
+                      aria-hidden="true"
                     />
                   ) : (
                     <Triangle
                       className="fill-red-500 rotate-180"
                       size={7}
                       strokeWidth={0}
+                      aria-hidden="true"
                     />
                   )}
                   {pair.isPositive ? "+" : ""}
                   {pair.change.toFixed(2)}%
-                </p>
+                </span>
               </div>
             </button>
 
             <button
               type="button"
-              className={`p-2 outline rounded-lg cursor-pointer ${
-                favorite ? "outline-lime-500" : "outline-neutral-500"
+              className={`p-2 rounded-lg cursor-pointer focus:outline-2 focus:outline-offset-2 focus:outline-lime-500 border ${
+                favorite ? "border-lime-500" : "border-neutral-500"
               }`}
               onClick={() => toggleFavorite(pair.base, pair.quote)}
+              aria-label={
+                favorite
+                  ? `Remove ${pair.base} to ${pair.quote} from favorites`
+                  : `Add ${pair.base} to ${pair.quote} to favorites`
+              }
+              aria-pressed={favorite}
             >
               <Star
                 className={
                   favorite ? "fill-lime-500 text-lime-500" : "text-neutral-50"
                 }
                 size={12}
+                aria-hidden="true"
               />
             </button>
           </div>

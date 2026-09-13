@@ -1,5 +1,5 @@
 import { Triangle, Check, Search } from "lucide-react";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { currencyList } from "../utils/currencyList";
 import type { Currency } from "../utils/currencyList";
 
@@ -11,8 +11,34 @@ interface CurrencyButtonProps {
 function CurrencyButton({ currency, setCurrency }: CurrencyButtonProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [search, setSearch] = useState("");
+  const dropdownRef = useRef<HTMLButtonElement>(null);
 
   const searchRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setIsOpen(false);
+      }
+    }
+
+    function handleEscape(event: KeyboardEvent) {
+      if (event.key === "Escape") {
+        setIsOpen(false);
+      }
+    }
+
+    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("keydown", handleEscape);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("keydown", handleEscape);
+    };
+  }, []);
 
   useEffect(() => {
     if (isOpen) {
@@ -27,32 +53,28 @@ function CurrencyButton({ currency, setCurrency }: CurrencyButtonProps) {
     setIsOpen((prev) => !prev);
   };
 
-  const filterCurrencies = (list: typeof currencyList.popular) =>
-    list.filter((curr) => {
-      const query = search.toLowerCase();
+  const filterCurrencies = (list: typeof currencyList.popular) => {
+    const query = search.toLowerCase();
 
-      return (
+    return list.filter(
+      (curr) =>
         curr.code.toLowerCase().includes(query) ||
-        curr.name.toLowerCase().includes(query)
-      );
-    });
+        curr.name.toLowerCase().includes(query),
+    );
+  };
 
-  const filteredPopular = useMemo(
-    () => filterCurrencies(currencyList.popular),
-    [search],
-  );
-
-  const filteredOther = useMemo(
-    () => filterCurrencies(currencyList.other),
-    [search],
-  );
+  const filteredPopular = filterCurrencies(currencyList.popular);
+  const filteredOther = filterCurrencies(currencyList.other);
 
   return (
     <div className="relative shrink-0">
       <button
+        ref={dropdownRef}
         type="button"
-        className=" shrink-0 flex items-center justify-between gap-2 rounded-lg bg-neutral-500 p-2.5 outline outline-neutral-400 hover:bg-neutral-400 cursor-pointer"
+        className=" shrink-0 flex items-center justify-between gap-2 rounded-lg bg-neutral-500 p-2.5 border-2 border-neutral-400 hover:bg-neutral-400 cursor-pointer focus:outline-lime-500 focus:outline-2 focus:outline-offset-2"
         onClick={toggleDropdown}
+        aria-haspopup="listbox"
+        aria-expanded={isOpen}
       >
         <img
           src={currency.flag}
@@ -71,13 +93,19 @@ function CurrencyButton({ currency, setCurrency }: CurrencyButtonProps) {
 
       {isOpen && (
         <div className="absolute right-0 top-full z-20 mt-2 w-94 rounded-lg outline outline-neutral-400 bg-neutral-600 p-2">
-          {/* Search */}
-
           <div className="sticky top-0 mb-2.5 ">
             <div className="flex items-center gap-2 rounded-md bg-neutral-600 px-3 outline outline-neutral-200">
-              <Search size={16} className="text-neutral-50 " />
+              <Search
+                size={16}
+                className="text-neutral-50 "
+                aria-hidden="true"
+              />
+              <label htmlFor="currency-search" className="sr-only">
+                Search currencies
+              </label>
 
               <input
+                id="currency-search"
                 ref={searchRef}
                 type="text"
                 placeholder="Search currencies..."

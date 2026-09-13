@@ -24,16 +24,17 @@ export default function Logs() {
           </div>
 
           <div className="flex flex-col sm:flex-row sm:items-center gap-0.5 sm:gap-5">
-            <p className="text-3 text-neutral-100">
+            <span className="text-3 text-neutral-100">
               {formatNumber(log.amount)}
-            </p>
-            <p className="text-3 text-lime-500">{log.convertedAmount}</p>
+            </span>
+            <span className="text-3 text-lime-500">{log.convertedAmount}</span>
           </div>
           <button
-            className="p-2 outline outline-neutral-500 rounded-lg cursor-pointer"
-            onClick={() =>  deleteLog(log.id)}
+            type="button"
+            className="p-2 outline outline-neutral-500 rounded-lg cursor-pointer focus:outline-2 focus:outline-offset-2 focus:outline-lime-500"
+            onClick={() => deleteLog(log.id)}
           >
-            <Trash className="text-neutral-50 " size={15} />
+            <Trash aria-hidden="true" className="text-neutral-50 " size={15} />
           </button>
         </div>
       ))}

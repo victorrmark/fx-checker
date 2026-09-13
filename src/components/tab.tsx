@@ -31,7 +31,9 @@ function Tabs({ tabs, activeTab, onChange }: TabsProps) {
                 key={tab.id}
                 type="button"
                 onClick={() => onChange(tab.id)}
-                className="relative flex items-center gap-2 pb-3 px-4 text-3 font-medium uppercase text-neutral-50 cursor-pointer hover:text-neutral-100 focus:outline-none focus:text-neutral-100"
+                className="relative flex items-center gap-2 py-4 px-4 text-3 font-medium uppercase text-neutral-50 cursor-pointer hover:text-neutral-100 focus:outline-lime-500 focus:outline-2  focus:text-neutral-100 rounded-lg"
+                role="tab"
+                aria-selected={isActive}
               >
                 {tab.label}
 
@@ -50,38 +52,54 @@ function Tabs({ tabs, activeTab, onChange }: TabsProps) {
         </nav>
       </div>
 
-      {/* for Mobile view */}
+      {/* Mobile */}
       <div className="sm:hidden relative">
         <button
-          className="relative w-full text-3 uppercase rounded-lg border border-neutral-400 bg-neutral-700 px-3 py-2 text-neutral-50 flex items-center justify-between gap-2 cursor-pointer"
+          type="button"
+          id="mobile-tab-trigger"
+          aria-haspopup="listbox"
+          aria-expanded={isOpen}
+          aria-controls="mobile-tab-list"
+          className="relative w-full text-3 uppercase rounded-lg border border-neutral-400 bg-neutral-700 px-3 py-2 text-neutral-50 flex items-center justify-between gap-2 cursor-pointer focus:outline-lime-500 focus:outline-2  focus:text-neutral-100"
           onClick={() => setIsOpen(!isOpen)}
         >
           {activeTab}
           <ChevronDown
+            aria-hidden="true"
             size={16}
             className={`transition-transform duration-500 ${isOpen ? "rotate-180" : "rotate-0"}`}
           />
         </button>
         {isOpen && (
-          <div className="absolute top-full left-0 right-0 bg-neutral-700 border border-neutral-600 rounded-lg mt-1 z-10 p-2">
-            {tabs.map((tab) => (
-              <button
-                key={tab.id}
-                type="button"
-                onClick={() => {
-                  onChange(tab.id);
-                  setIsOpen(false);
-                }}
-                className="w-full text-left px-2 py-2.5 text-neutral-50 hover:text-neutral-100 focus:outline-none focus:text-neutral-100 uppercase text-3 flex items-center justify-between gap-2 cursor-pointer"
-              >
-                {tab.label}
-                {["favorites", "log"].includes(tab.id) && (
-                  <span className="flex h-5 min-w-5 items-center justify-center rounded-full bg-lime-800 px-1 text-xs text-lime-500">
-                    {tab.id === "favorites" ? favorites.length : logs.length}
-                  </span>
-                )}
-              </button>
-            ))}
+          <div
+            id="mobile-tab-list"
+            role="listbox"
+            aria-labelledby="mobile-tab-trigger"
+            className="absolute top-full left-0 right-0 bg-neutral-700 border border-neutral-600 rounded-lg mt-1 z-10 p-2"
+          >
+            {tabs.map((tab) => {
+              const isActive = tab.id === activeTab;
+              return (
+                <button
+                  type="button"
+                  role="option"
+                  aria-selected={isActive}
+                  key={tab.id}
+                  onClick={() => {
+                    onChange(tab.id);
+                    setIsOpen(false);
+                  }}
+                  className="w-full text-left px-2 py-2.5 text-neutral-50 hover:text-neutral-100 focus:outline-none focus:text-neutral-100 uppercase text-3 flex items-center justify-between gap-2 cursor-pointer"
+                >
+                  {tab.label}
+                  {["favorites", "log"].includes(tab.id) && (
+                    <span className="flex h-5 min-w-5 items-center justify-center rounded-full bg-lime-800 px-1 text-xs text-lime-500">
+                      {tab.id === "favorites" ? favorites.length : logs.length}
+                    </span>
+                  )}
+                </button>
+              );
+            })}
           </div>
         )}
       </div>

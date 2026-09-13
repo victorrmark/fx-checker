@@ -26,12 +26,7 @@ export async function getRates(
   base: string,
   quote: string,
 ) {
-  const { data } = await frankfurterApi.get("/v2/rates", {
-    params: {
-      base,
-      quotes: quote,
-    },
-  });
+  const { data } = await frankfurterApi.get(`/v2/rate/${base}/${quote}`);
 
   return data;
 }

@@ -20,6 +20,7 @@ export default function Converter() {
     baseCurrency.code,
     quoteCurrency.code,
   );
+  console.log(data)
 
   const handleSwitch = () => {
     const currentBaseCurrency = baseCurrency;
@@ -39,12 +40,18 @@ export default function Converter() {
   return (
     <div className="w-full flex flex-col gap-4 p-4 md:flex-row md:gap-6 md:p-5 items-center">
       <div className="gap-4 p-4 rounded-2xl md:gap-5 md:p-5 flex flex-col w-full outline-1 outline-neutral-500 bg-neutral-600 min-w-0">
-        <p className="uppercase text-4 text-neutral-100">Send</p>
+        <label
+          htmlFor="send-amount"
+          className="uppercase text-4 text-neutral-100"
+        >
+          Send
+        </label>{" "}
         <div className="flex w-full items-center justify-between">
           <input
+            id="send-amount"
             type="number"
             value={debounceAmount}
-            inputMode="numeric"
+            inputMode="decimal"
             onChange={handleChange}
             className="bg-transparent min-w-0 text-neutral-50 text-tab lg:text-1  focus:outline-none no-spinner placeholder:text-tab lg:placeholder:text-1 placeholder:opacity-100 placeholder:text-neutral-200"
             placeholder="0"
@@ -58,8 +65,9 @@ export default function Converter() {
       </div>
 
       <button
-        className="p-3 h-12 rounded-lg outline-1 outline-neutral-500 bg-neutral-600 hover:bg-neutral-400 cursor-pointer"
+        className="p-3 h-12 rounded-lg outline-1 outline-neutral-500 bg-neutral-600 hover:bg-neutral-400 cursor-pointer focus:outline-lime-500 focus:outline-2 focus:outline-offset-2"
         onClick={handleSwitch}
+        aria-label="Swap currencies"
       >
         <ArrowLeftRight className="rotate-90 md:rotate-0 " color="white" />
       </button>

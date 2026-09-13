@@ -2,11 +2,14 @@ import { useLogs } from "../../context/LogContext/useLogs";
 import { useCurrency } from "../../context/Currency/useCurrency";
 import { removeSign } from "../../utils/formatNumbers";
 import { useState } from "react";
- 
 
-export default function AddLog({converted}: {converted: string | undefined}) {
+export default function AddLog({
+  converted,
+}: {
+  converted: string | undefined;
+}) {
   const { addLog } = useLogs();
-  const {baseCurrency, quoteCurrency, amount} = useCurrency();
+  const { baseCurrency, quoteCurrency, amount } = useCurrency();
   const [toast, setToast] = useState("");
 
   const showToast = () => {
@@ -27,21 +30,26 @@ export default function AddLog({converted}: {converted: string | undefined}) {
       createdAt: new Date().toISOString(),
     };
     addLog(newLog);
-    showToast()
+    showToast();
   };
 
   return (
     <>
       <button
-        className="px-3 py-2 rounded-lg outline-1 outline-lime-500 cursor-pointer text-neutral-50 gap-2 uppercase text-5 font-medium hover:bg-lime-800 disabled:bg-transparent disabled:text-neutral-200 disabled:outline-neutral-300"
+        className="px-3 py-2 rounded-lg outline-1 outline-lime-500 cursor-pointer text-neutral-50 gap-2 uppercase text-5 font-medium hover:bg-lime-800 disabled:bg-transparent disabled:text-neutral-200 disabled:outline-neutral-300 focus:outline-lime-500 focus:outline-2 focus:outline-offset-2"
         onClick={handleAddLog}
         disabled={!amount}
+        aria-label="Log conversion"
       >
         Log Conversion
       </button>
 
       {toast && (
-        <div className="fixed right-5 top-5 z-50 rounded-lg bg-gray-900 px-5 py-3 text-sm font-medium text-white shadow-lg">
+        <div
+          role="status"
+          aria-live="polite"
+          className="fixed right-5 top-5 z-50 rounded-lg bg-gray-900 px-5 py-3 text-sm font-medium text-white shadow-lg"
+        >
           {toast}
         </div>
       )}

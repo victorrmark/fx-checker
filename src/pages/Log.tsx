@@ -32,7 +32,9 @@ export default function Log() {
           <p className="text-5 text-neutral-50">{logs.length} logged</p>
 
           <button
-            className="uppercase bg-neutral-600 outline-1 outline-neutral-400 text-5 text-neutral-200 rounded-lg px-3 py-2 cursor-pointer hover:bg-neutral-400"
+            type="button"
+            aria-label="clear all logs"
+            className="uppercase bg-neutral-600 border border-neutral-400 text-5 text-neutral-200 rounded-lg px-3 py-2 cursor-pointer hover:bg-neutral-400 focus:outline-lime-500 focus:outline-2 focus:outline-offset-2"
             onClick={() => {
               eraseLogs();
               showToast();
@@ -45,7 +47,11 @@ export default function Log() {
       <Logs />
 
       {toast && (
-        <div className="fixed right-5 top-5 z-50 rounded-lg bg-gray-900 px-5 py-3 text-sm font-medium text-white shadow-lg">
+        <div
+          role="status"
+          aria-live="polite"
+          className="fixed right-5 top-5 z-50 rounded-lg bg-gray-900 px-5 py-3 text-sm font-medium text-white shadow-lg"
+        >
           {toast}
         </div>
       )}

@@ -48,10 +48,22 @@ export default function ComparedCurrencies({
             </div>
 
             <button
-              className={`p-2 outline rounded-lg cursor-pointer ${favorite ? "outline-lime-500" : "outline-neutral-500"}`}
-              onClick={() =>  toggleFavorite(data.base, data.quote)}
+              className={`p-2 outline rounded-lg cursor-pointer focus:outline-lime-500 focus:outline-2 focus:outline-offset-2 ${favorite ? "outline-lime-500" : "outline-neutral-500"}`}
+              onClick={() => toggleFavorite(data.base, data.quote)}
+              aria-label={
+                favorite
+                  ? `Remove ${data.base} to ${data.quote} from favorites`
+                  : `Add ${data.base} to ${data.quote} to favorites`
+              }
+              aria-pressed={favorite}
             >
-              <Star className={favorite ? "fill-lime-500 text-lime-500" : "text-neutral-50"} size={15} />
+              <Star
+                className={
+                  favorite ? "fill-lime-500 text-lime-500" : "text-neutral-50"
+                }
+                size={15}
+                aria-hidden="true"
+              />
             </button>
           </div>
         );
